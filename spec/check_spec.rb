@@ -1,1 +1,1 @@
-require 'check'
+require './check'
