@@ -2,8 +2,28 @@ require 'open-uri'
 require 'nokogiri'
 class Check
 
+  def self.current_auction
+    Check.parse
+    # price builder will take the first 8 elements of an array and create a new array from them, then puts each item out with the label
+    auction_item_data = Check.item_price.each_slice(8).to_a
+    item_counter = 0
+    while item_counter < auction_item_data.length
+      puts "\nItem Name: #{Check.item_name(item_counter)}\n
+       Current Bid: #{auction_item_data[item_counter][1]}
+       Minimum Bid: #{auction_item_data[item_counter][2]}
+       Time Left: #{auction_item_data[item_counter][3]}
+       # of Bids: #{auction_item_data[item_counter][4]}
+       Realm Market Value: #{auction_item_data[item_counter][5]}
+       Global Market Value: #{auction_item_data[item_counter][6]}
+       Realm AH Current Quantity: #{auction_item_data[item_counter][7]}\n"
+      item_counter += 1
+    end
+  end
+
+private
+
   def self.refresh
-    # @doc = Nokogiri::HTML(open("https://www.tradeskillmaster.com/black-market?realm=US-area-52")) Commented out for testing
+    # @doc = Nokogiri::HTML(open("https://www.tradeskillmaster.com/black-market?realm=US-area-52")) #Commented out for testing
     @doc = File.open("./spec/TSM_bmah_sample.xml") { |f| Nokogiri::XML(f) } #Test file
   end
 
@@ -11,37 +31,12 @@ class Check
     Check.refresh
     auction_house = @doc.xpath("//title").text
     updated_at = @doc.xpath("//div//p").children.first.text
-    column_label = @doc.xpath("//thead//tr").text
-    # item_name = @doc.xpath("//table//tbody").children.children.children.attribute("title").text
-    number_of_entries = @doc.xpath("//table//tbody/tr/@data-key").children.text.length # counts the number of datakeys, such a number of entries.
+    number_of_entries = @doc.xpath("//table//tbody//td//a").length
 
-    puts "Auction House: #{auction_house}\n
-          #{updated_at}\n
-          Number of Items: #{number_of_entries}"
-  # puts Columns: #{column_label}
-    # puts "Item Name: #{item_name}"
+    puts "\nAuction House: #{auction_house}\n
+    #{updated_at}\n
+    Number of Items: #{number_of_entries}"
   end
-
-  def self.price_builder
-    Check.parse
-    # price builder will take the first 8 elements of an array and create a new array from them, then puts each item out with the label
-    each_item_prices = Check.item_price.each_slice(8).to_a
-    # p each_item_prices
-    item_counter = 0
-    while item_counter < each_item_prices.length
-      puts "\nItem Name: #{Check.item_name(item_counter)}\n
-       Current Bid: #{each_item_prices[item_counter][1]}
-       Minimum Bid: #{each_item_prices[item_counter][2]}
-       Time Left: #{each_item_prices[item_counter][3]}
-       # of Bids: #{each_item_prices[item_counter][4]}
-       Realm Market Value: #{each_item_prices[item_counter][5]}
-       Global Market Value: #{each_item_prices[item_counter][6]}
-       Realm AH Current Quantity: #{each_item_prices[item_counter][7]}\n"
-      item_counter += 1
-    end
-  end
-
-private
 
   def self.item_price
     counter = 0
