@@ -20,4 +20,18 @@ class Check
     puts "Item Name: #{item_name}"
   end
 
+  def self.price_index
+    counter = 0
+    until counter >= @doc.xpath("//table//tbody").children.length
+      puts @doc.xpath("//table//tbody").children[counter].text
+      counter += 1
+    end
+  end
+
+  def self.price_builder
+    counter = 0
+    until counter >= @doc.xpath("//table//tbody//td").children.length
+      
+  end
+
 end
