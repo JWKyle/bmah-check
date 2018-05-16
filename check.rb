@@ -30,7 +30,20 @@ class Check
 
   def self.price_builder
     # price builder will take the first 8 elements of an array and create a new array from them, then puts each item out with the label
-    Array.new << Check.item_price.slice!(0..7)
+    each_item_prices = Check.item_price.each_slice(8).to_a
+    p each_item_prices
+    item_counter = 0
+    while item_counter <= each_item_prices.length
+      puts "Item Name: #{each_item_prices[item_counter][0]}"
+      puts "Current Bid: #{each_item_prices[item_counter][1]}"
+      puts "Minimum Bid: #{each_item_prices[item_counter][2]}"
+      puts "Time Left: #{each_item_prices[item_counter][3]}"
+      puts "# of Bids: #{each_item_prices[item_counter][4]}"
+      puts "Realm Market Value: #{each_item_prices[item_counter][5]}"
+      puts "Global Market Value: #{each_item_prices[item_counter][6]}"
+      puts "Realm AH Current Quantity: #{each_item_prices[item_counter][7]}"
+      item_counter += 1
+    end
     # counter = 0
     # price_collection = []
     # until counter >= @doc.xpath("//table//tbody//td").children.length
