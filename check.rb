@@ -30,8 +30,22 @@ class Check
 
   def self.price_builder
     counter = 0
+    price_collection = []
     until counter >= @doc.xpath("//table//tbody//td").children.length
-      
+      price_collection << @doc.xpath("//table//tbody//td").children[counter].text
+      counter += 1
+    end
+    price_collection
+  end
+
+  def self.item_price
+    counter = 0
+    item_price_collection = []
+    until counter >= @doc.xpath("//table//tbody//td").length
+      price_collection << @doc.xpath("//table//tbody//td")[counter].text
+      counter += 1
+    end
+    price_collection
   end
 
 end
