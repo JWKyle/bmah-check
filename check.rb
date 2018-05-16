@@ -3,10 +3,12 @@ require 'nokogiri'
 class Check
 
   def self.refresh
-    @doc = Nokogiri::XML(open("https://www.tradeskillmaster.com/black-market?realm=US-area-52"))
+    # @doc = Nokogiri::HTML(open("https://www.tradeskillmaster.com/black-market?realm=US-area-52")) Commented out for testing
+    @doc = File.open("./spec/TSM_bmah_sample.html") { |f| Nokogiri::HTML(f) } #Test file
   end
 
   def self.parse
+    Check.refresh
     auction_house = @doc.xpath("//title").text
     updated_at = @doc.xpath("//div//p").children.first.text
     column_label = @doc.xpath("//thead//tr").text
@@ -33,7 +35,8 @@ class Check
     each_item_prices = Check.item_price.each_slice(8).to_a
     p each_item_prices
     item_counter = 0
-    while item_counter <= each_item_prices.length
+    while item_counter < each_item_prices.length
+      puts
       puts "Item Name: #{each_item_prices[item_counter][0]}"
       puts "Current Bid: #{each_item_prices[item_counter][1]}"
       puts "Minimum Bid: #{each_item_prices[item_counter][2]}"
@@ -42,15 +45,9 @@ class Check
       puts "Realm Market Value: #{each_item_prices[item_counter][5]}"
       puts "Global Market Value: #{each_item_prices[item_counter][6]}"
       puts "Realm AH Current Quantity: #{each_item_prices[item_counter][7]}"
+      puts
       item_counter += 1
     end
-    # counter = 0
-    # price_collection = []
-    # until counter >= @doc.xpath("//table//tbody//td").children.length
-    #   price_collection << @doc.xpath("//table//tbody//td").children[counter].text
-    #   counter += 1
-    # end
-    # price_collection
   end
 
   def self.item_price
