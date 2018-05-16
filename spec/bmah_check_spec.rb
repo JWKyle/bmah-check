@@ -1,0 +1,1 @@
+require 'bmah_check'
