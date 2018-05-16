@@ -1,1 +1,1 @@
-require 'bmah_check'
+require './bmah_check'
