@@ -11,8 +11,13 @@ RSpec.describe Check do
   end
   describe "#price_builder" do
     it "Shows the first item for bid" do
-      Check.price_builder
-      expect(each_item_prices[item_counter][0]).to eq("")
+
+      expect(Check.price_builder::each_item_prices[item_counter][0]).to eq("")
+    end
+  end
+  describe "#price_builder" do
+    it "Shows printout of bidding information" do
+      expect(Check.price_builder).to eq("")
     end
   end
 end

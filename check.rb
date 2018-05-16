@@ -4,7 +4,7 @@ class Check
 
   def self.refresh
     # @doc = Nokogiri::HTML(open("https://www.tradeskillmaster.com/black-market?realm=US-area-52")) Commented out for testing
-    @doc = File.open("./spec/TSM_bmah_sample.html") { |f| Nokogiri::HTML(f) } #Test file
+    @doc = File.open("./spec/TSM_bmah_sample.xml") { |f| Nokogiri::XML(f) } #Test file
   end
 
   def self.parse
@@ -36,19 +36,19 @@ class Check
     p each_item_prices
     item_counter = 0
     while item_counter < each_item_prices.length
-      puts
-      puts "Item Name: #{each_item_prices[item_counter][0]}"
-      puts "Current Bid: #{each_item_prices[item_counter][1]}"
-      puts "Minimum Bid: #{each_item_prices[item_counter][2]}"
-      puts "Time Left: #{each_item_prices[item_counter][3]}"
-      puts "# of Bids: #{each_item_prices[item_counter][4]}"
-      puts "Realm Market Value: #{each_item_prices[item_counter][5]}"
-      puts "Global Market Value: #{each_item_prices[item_counter][6]}"
-      puts "Realm AH Current Quantity: #{each_item_prices[item_counter][7]}"
-      puts
+      puts "\nItem Name: #{Check.item_name(item_counter)}\n
+       Current Bid: #{each_item_prices[item_counter][1]}
+       Minimum Bid: #{each_item_prices[item_counter][2]}
+       Time Left: #{each_item_prices[item_counter][3]}
+       # of Bids: #{each_item_prices[item_counter][4]}
+       Realm Market Value: #{each_item_prices[item_counter][5]}
+       Global Market Value: #{each_item_prices[item_counter][6]}
+       Realm AH Current Quantity: #{each_item_prices[item_counter][7]}\n"
       item_counter += 1
     end
   end
+
+private
 
   def self.item_price
     counter = 0
@@ -60,4 +60,7 @@ class Check
     item_price_collection
   end
 
+  def self.item_name(entry)
+    @doc.xpath("//table//tbody//td//a")[entry].attribute("title").text
+  end
 end
