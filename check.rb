@@ -12,28 +12,21 @@ class Check
     auction_house = @doc.xpath("//title").text
     updated_at = @doc.xpath("//div//p").children.first.text
     column_label = @doc.xpath("//thead//tr").text
-    item_name = @doc.xpath("//table//tbody").children.children.children.attribute("title").text
+    # item_name = @doc.xpath("//table//tbody").children.children.children.attribute("title").text
     number_of_entries = @doc.xpath("//table//tbody/tr/@data-key").children.text.length # counts the number of datakeys, such a number of entries.
 
-    puts "Auction House: #{auction_house}"
-    puts "#{updated_at}"
-    puts "Columns: #{column_label}"
-    puts "Number of Items: #{number_of_entries}"
-    puts "Item Name: #{item_name}"
-  end
-
-  def self.price_index
-    counter = 0
-    until counter >= @doc.xpath("//table//tbody").children.length
-      puts @doc.xpath("//table//tbody").children[counter].text
-      counter += 1
-    end
+    puts "Auction House: #{auction_house}\n
+          #{updated_at}\n
+          Number of Items: #{number_of_entries}"
+  # puts Columns: #{column_label}
+    # puts "Item Name: #{item_name}"
   end
 
   def self.price_builder
+    Check.parse
     # price builder will take the first 8 elements of an array and create a new array from them, then puts each item out with the label
     each_item_prices = Check.item_price.each_slice(8).to_a
-    p each_item_prices
+    # p each_item_prices
     item_counter = 0
     while item_counter < each_item_prices.length
       puts "\nItem Name: #{Check.item_name(item_counter)}\n
