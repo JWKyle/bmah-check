@@ -29,23 +29,25 @@ class Check
   end
 
   def self.price_builder
-    counter = 0
-    price_collection = []
-    until counter >= @doc.xpath("//table//tbody//td").children.length
-      price_collection << @doc.xpath("//table//tbody//td").children[counter].text
-      counter += 1
-    end
-    price_collection
+    # price builder will take the first 8 elements of an array and create a new array from them, then puts each item out with the label
+    Array.new << Check.item_price.slice!(0..7)
+    # counter = 0
+    # price_collection = []
+    # until counter >= @doc.xpath("//table//tbody//td").children.length
+    #   price_collection << @doc.xpath("//table//tbody//td").children[counter].text
+    #   counter += 1
+    # end
+    # price_collection
   end
 
   def self.item_price
     counter = 0
     item_price_collection = []
     until counter >= @doc.xpath("//table//tbody//td").length
-      price_collection << @doc.xpath("//table//tbody//td")[counter].text
+      item_price_collection << @doc.xpath("//table//tbody//td")[counter].text
       counter += 1
     end
-    price_collection
+    item_price_collection
   end
 
 end
