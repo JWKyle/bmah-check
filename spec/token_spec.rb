@@ -12,9 +12,5 @@ RSpec.describe Token do
     it "Shows the formated price ending with 'g'" do
       expect(Token.current_price).to end_with('g')
     end
-  #
-  #   pending "Shows printout of bidding information" do
-  #     expect(Check.current_auction).to eq("")
-  #   end
   end
 end
