@@ -20,7 +20,7 @@ class Check
          Realm AH Current Quantity: #{auction_item_data[item_counter][7]}\n"
         item_counter += 1
       end
-      puts "\n\nThe current Wow Token price is: #{Token.refresh}"
+      puts "\n\nThe current Wow Token price is: #{Token.current_price}"
     end
 
     def refresh
