@@ -6,12 +6,12 @@ class Token
     def refresh
       url = 'https://us.api.battle.net/data/wow/token/?namespace=dynamic-us&locale=en_US&access_token=' + ENV['WOW_ACCESS_TOKEN']
       response = HTTParty.get(url)
-      token_price = response.parsed_response["price"]
-      (token_price / 10000).to_s + 'g'
+      response.parsed_response["price"]
     end
 
-    def format
-      Token.refresh.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+    def current_price
+      unformated_price = (Token.refresh / 10000).to_s + 'g'
+      unformated_price.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
     end
   end
 end
