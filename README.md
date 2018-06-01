@@ -12,6 +12,7 @@ _This is currently only configured to work with Area 52_
 Requirements:  
 Nokogiri  
 RSpec
+HTTParty
 
 Testing Strategy
 Since this project initally undertaken to get re-aquainted with Nokogiri, the early code was tested directly through IRB.  However, as the project has outgrown the exploration phase, I'm incorperating RSpec for TDD.  
